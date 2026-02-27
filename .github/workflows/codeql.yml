@@ -25,14 +25,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+    
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+    
+      - name: Install Composer dependencies
+        run: |
+          composer install --no-interaction --no-progress --prefer-dist
+    
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: php
-
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --no-progress
-
+    
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
