@@ -2,9 +2,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
   schedule:
     - cron: '0 3 * * 0'
 
@@ -22,23 +22,22 @@ jobs:
       matrix:
         language: [ 'php' ]
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-    
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-    
-      - name: Install Composer dependencies
-        run: |
-          composer install --no-interaction --no-progress --prefer-dist
-    
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: php
-    
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+ steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+
+  - name: Initialize CodeQL
+    uses: github/codeql-action/init@v4
+    with:
+      languages: php
+
+  - name: Setup PHP
+    uses: shivammathur/setup-php@v2
+    with:
+      php-version: '8.2'
+
+  - name: Install Composer dependencies
+    run: composer install --no-interaction --no-progress --prefer-dist
+
+  - name: Perform CodeQL Analysis
+    uses: github/codeql-action/analyze@v4
